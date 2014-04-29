@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Demo</string>
+    <string name="action_search">search</string>
+    <string name="action_labels">labels</string>
+    <string name="action_search_hint">搜索书名/作者</string>
+    <string name="action_refresh">刷新</string>
+
+</resources>
