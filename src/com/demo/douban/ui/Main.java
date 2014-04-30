@@ -1,5 +1,7 @@
 package com.demo.douban.ui;
 
+import android.os.Handler;
+import android.os.Message;
 import com.demo.douban.R;
 import com.demo.douban.api.ApiClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -18,6 +20,7 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
+
 /**
  * 应用程序首页
  * @author yufeilong
@@ -25,7 +28,8 @@ import android.widget.Toast;
 public class Main extends Activity
 {
 	private JsonHttpResponseHandler  recommendHandler;
-	
+    private static boolean isExit = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -55,9 +59,12 @@ public class Main extends Activity
 				InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
 				
-				loadData(q, 0, 5);;
+//				loadData(q, 0, 5);
 				
 				Intent intent = new Intent(Main.this, SearchResult.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("q", q);
+                intent.putExtras(bundle);
 				startActivity(intent);
 				
 				return false;
@@ -90,8 +97,7 @@ public class Main extends Activity
 	    {
 	        case R.id.action_search:
 	        {
-	        	//openSearch();
-	        	Toast.makeText(getApplicationContext(), "search", Toast.LENGTH_SHORT).show();  
+	        	Toast.makeText(getApplicationContext(), "search", Toast.LENGTH_SHORT).show();
 	        	return true;	        	
 	        }
 	        case R.id.action_labels:
@@ -127,6 +133,46 @@ public class Main extends Activity
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
-		return false;
+		if(keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            onExit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
 	}
+
+    /**
+     * 处理主界面handler
+     */
+    Handler mHandler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            super.handleMessage(msg);
+
+            if (msg.what == 999)
+            {
+                isExit = true;
+            }
+        }
+    };
+
+    /**
+     * 是否退出游戏判断
+     */
+    private void onExit()
+    {
+        if(!isExit)
+        {
+            isExit = true;
+            Toast.makeText(getApplicationContext(), R.string.exit_toast, Toast.LENGTH_LONG).show();
+            mHandler.sendEmptyMessage(9999);
+        }
+        else
+        {
+            finish();
+            System.exit(0);
+        }
+    }
 }

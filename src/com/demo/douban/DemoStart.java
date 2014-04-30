@@ -10,7 +10,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 
-public class DemoStart extends Activity 
+public class DemoStart extends Activity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState) 
@@ -38,7 +38,7 @@ public class DemoStart extends Activity
 			}
 
 			@Override
-			public void onAnimationStart(Animation animation) 
+			public void onAnimationStart(Animation animation)
 			{
 			}	
 		});
